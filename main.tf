@@ -21,13 +21,6 @@ resource "random_string" "unique-name" {
   special = false
 }
 
-#locals {
-#  host_basename = replace(coalesce(
-#    var.hostname_override,
-#    "${var.vsphere_username}-${random_string.unique-name.result}",
-#  ), ".", "")
-#}
-
 resource "vsphere_folder" "kube" {
   path          = "/Kube"
   type          = "vm"
