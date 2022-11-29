@@ -16,7 +16,7 @@ provider "vsphere" {
 resource "random_string" "unique-name" {
   length  = 8
   upper   = false
-  numeric  = false
+  numeric = false
   lower   = true
   special = false
 }
@@ -31,7 +31,7 @@ resource "random_string" "unique-name" {
 resource "vsphere_folder" "kube" {
   path          = "/Kube"
   type          = "vm"
-  datacenter_id = "${data.vsphere_datacenter.datacenter.id}"
+  datacenter_id = data.vsphere_datacenter.datacenter.id
 }
 
 data "vsphere_datacenter" "datacenter" {
@@ -99,11 +99,11 @@ resource "vsphere_virtual_machine" "worker" {
   hostname
   seedfrom (url containing userdata)
  */
-  
+
   vapp {
     properties = {
-      hostname    = "kube-worker-${count.index + 1}"
-      user-data   = base64encode(file("${path.module}/cloud-init.tpl"))
+      hostname  = "kube-worker-${count.index + 1}"
+      user-data = base64encode(file("${path.module}/cloud-init.tpl"))
     }
   }
 
@@ -174,8 +174,8 @@ resource "vsphere_virtual_machine" "controller" {
 
   vapp {
     properties = {
-      hostname    = "kube-controller-${count.index + 1}"
-      user-data   = base64encode(file("${path.module}/cloud-init.tpl"))
+      hostname  = "kube-controller-${count.index + 1}"
+      user-data = base64encode(file("${path.module}/cloud-init.tpl"))
     }
   }
 
@@ -203,7 +203,7 @@ resource "vsphere_virtual_machine" "controller" {
       sata_controller_count,
     ]
   }
-  depends_on = [ vsphere_folder.kube ]
+  depends_on = [vsphere_folder.kube]
 }
 
 output "worker_private_ips" {
